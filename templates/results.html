@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Results v2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Comparison Results</h1>
+        <p class="prompt-display"><strong>Prompt:</strong> {{ prompt }}</p>
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% else %}
+            <div class="results-grid">
+                <div class="model-card">
+                    <h2>{{ results.model1.name }}</h2>
+                    <p class="metric"><strong>Response Time:</strong> {{ results.model1.time }}</p>
+                    <p class="metric"><strong>Token Speed:</strong> {{ results.model1.speed }}</p>
+                    <p class="metric"><strong>Tokens Generated:</strong> {{ results.model1.tokens_generated }}</p>
+                    <div class="response-box">
+                        <h3>Response:</h3>
+                        <p>{{ results.model1.response }}</p>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <h2>{{ results.model2.name }}</h2>
+                    <p class="metric"><strong>Response Time:</strong> {{ results.model2.time }}</p>
+                    <p class="metric"><strong>Token Speed:</strong> {{ results.model2.speed }}</p>
+                    <p class="metric"><strong>Tokens Generated:</strong> {{ results.model2.tokens_generated }}</p>
+                    <div class="response-box">
+                        <h3>Response:</h3>
+                        <p>{{ results.model2.response }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <p><a href="/">Compare Again</a></p>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

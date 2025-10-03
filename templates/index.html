@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Comparator v2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Large Language Model Comparator v2</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form action="/compare" method="post">
+            <div class="form-group">
+                <label for="prompt">Enter your prompt:</label>
+                <textarea id="prompt" name="prompt" rows="8" required></textarea>
+            </div>
+
+            <div class="model-parameters">
+                <h2>Model Parameters (Optional Overrides)</h2>
+                <div class="model-params-grid">
+                    <div class="model-params-card">
+                        <h3>{{ llama_config.model_id }}</h3>
+                        <div class="form-group">
+                            <label for="llama_max_new_tokens">Max New Tokens:</label>
+                            <input type="number" id="llama_max_new_tokens" name="llama_max_new_tokens" 
+                                value="{{ llama_config.max_new_tokens }}" min="10" max="1000">
+                        </div>
+                        <div class="form-group">
+                            <label for="llama_temperature">Temperature:</label>
+                            <input type="number" id="llama_temperature" name="llama_temperature" 
+                                value="{{ llama_config.temperature }}" step="0.1" min="0.1" max="1.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="llama_top_p">Top P:</label>
+                            <input type="number" id="llama_top_p" name="llama_top_p" 
+                                value="{{ llama_config.top_p }}" step="0.1" min="0.1" max="1.0">
+                        </div>
+                    </div>
+
+                    <div class="model-params-card">
+                        <h3>{{ deepseek_config.model_id }}</h3>
+                        <div class="form-group">
+                            <label for="deepseek_max_new_tokens">Max New Tokens:</label>
+                            <input type="number" id="deepseek_max_new_tokens" name="deepseek_max_new_tokens" 
+                                value="{{ deepseek_config.max_new_tokens }}" min="10" max="1000">
+                        </div>
+                        <div class="form-group">
+                            <label for="deepseek_temperature">Temperature:</label>
+                            <input type="number" id="deepseek_temperature" name="deepseek_temperature" 
+                                value="{{ deepseek_config.temperature }}" step="0.1" min="0.1" max="1.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="deepseek_top_p">Top P:</label>
+                            <input type="number" id="deepseek_top_p" name="deepseek_top_p" 
+                                value="{{ deepseek_config.top_p }}" step="0.1" min="0.1" max="1.0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">Compare Models</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
